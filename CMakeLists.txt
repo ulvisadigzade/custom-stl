@@ -3,4 +3,6 @@ project(custom_stl)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(custom_stl main.cpp)
+add_executable(custom_stl main.cpp
+        Vector.cpp
+        Vector.hpp)
