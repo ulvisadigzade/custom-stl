@@ -11,9 +11,10 @@ int main() {
     v.push_back(12);
     v.push_back(13);
 
-    for (int i=0;i<v.size();i++) {
-        std::cout<<v[i]<<"\n";
-    }
+
+    std::cout<<v.back()<<"\n";
+    v.pop_back();
+    std::cout<<v.back()<<"\n";
 
     /*
     for (int i=0;i<n;i++)v[i] = i*2;

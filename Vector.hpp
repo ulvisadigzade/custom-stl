@@ -9,10 +9,12 @@ public:
     ~Vector();
     int& operator[](int index);
     void push_back(int value);
+    void pop_back();
     int size() const;
+    int back() const;
 private:
     int size_{0};
-    int capacity{0};
-    int* ptr{nullptr};//what is this
+    int capacity_{0};
+    int* data_{nullptr};//what is this
     void extendArray();
 };
