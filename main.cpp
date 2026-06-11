@@ -3,18 +3,15 @@
 #include "Vector.hpp"
 
 int main() {
-    int n;
-    std::cin>>n;
-
-
     Vector v;
-    v.push_back(12);
-    v.push_back(13);
+    v.reserve(1000);
+    for (int i=1;i<=10;i++)v.push_back(i);
 
+    std::cout<<v.capacity()<<" "<<v.size()<<"\n";
 
-    std::cout<<v.back()<<"\n";
-    v.pop_back();
-    std::cout<<v.back()<<"\n";
+    v.shrink_to_fit();
+
+    std::cout<<v.capacity()<<" "<<v.size()<<"\n";
 
     /*
     for (int i=0;i<n;i++)v[i] = i*2;

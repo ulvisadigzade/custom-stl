@@ -1,7 +1,5 @@
 #include "Vector.hpp"
 
-#include <stdlib.h>
-
 Vector::Vector(const int size) :
     size_(size),
     capacity_(size),
@@ -27,13 +25,9 @@ int& Vector::operator[](int index)
 }
 
 void Vector::push_back(int value) {
-    if (capacity_ == 0) {
-        capacity_ = 1;
-        data_ = new int[capacity_];
-    }else if (size_ == capacity_) {
-        extendArray();
+    if (size_ == capacity_) {
+        reserve(capacity_ == 0 ? 1 : capacity_ * 2);
     }
-
     data_[size_++] = value;
 }
 
@@ -48,21 +42,53 @@ void Vector::pop_back() {
 int Vector::back() const {
     if (size_ == 0) {
         //TODO: throw
-        return NULL;
+        return 0; //temporary invalid fallback
     }
     return data_[size_ - 1];
 }
 
-void Vector::extendArray() {
-    capacity_ *= 2;
-    int* newPtr = new int[capacity_];
-    for (int i = 0; i < size_; i++) {
-        newPtr[i] = data_[i];
-    }
-    delete[] data_;
-    data_ = newPtr;
-}
-
 int Vector::size() const {
     return size_;
+}
+
+int Vector::capacity() const {
+    return capacity_;
+}
+
+bool Vector::empty() const {
+    return size_ == 0;
+}
+
+void Vector::reserve(int capacity) {
+    if (capacity <= capacity_)
+        return;
+
+    int* newData = new int[capacity];
+
+    for (int i=0;i<size_;i++) {
+        newData[i] = data_[i];
+    }
+    delete[] data_;
+    data_ = newData;
+    capacity_ = capacity;
+}
+
+void Vector::shrink_to_fit() {
+    if (capacity_ == size_)
+        return;
+
+    if (size_ == 0) {
+        delete[] data_;
+        data_ = nullptr;
+        capacity_ = 0;
+        return;
+    }
+
+    int* newData = new int[size_];
+    for (int i=0;i<size_;i++) {
+        newData[i] = data_[i];
+    }
+    delete[] data_;
+    data_ = newData;
+    capacity_ = size_;
 }
