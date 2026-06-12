@@ -1,21 +1,15 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
 #include "Vector.hpp"
 
 int main() {
-    Vector v;
-    v.reserve(1000);
-    for (int i=1;i<=10;i++)v.push_back(i);
+    Vector a;
+    a.push_back(1);
+    a.push_back(2);
+    a.push_back(3);
+    a.push_back(1);
 
-    std::cout<<v.capacity()<<" "<<v.size()<<"\n";
+    std::sort(a.rbegin(), a.rend());
 
-    v.shrink_to_fit();
-
-    std::cout<<v.capacity()<<" "<<v.size()<<"\n";
-
-    /*
-    for (int i=0;i<n;i++)v[i] = i*2;
-
-    for (int i=n-1;i>=0;i--)std::cout<<v[i]<<" ";
-    */
+    for (auto &i:a)std::cout<<i<<" ";
 }

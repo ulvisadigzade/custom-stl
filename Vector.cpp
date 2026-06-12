@@ -15,6 +15,39 @@ Vector::Vector(const int size, const int value) :
         data_[i] = value;
 }
 
+Vector::Vector(const Vector& other) : size_(other.size_), capacity_(other.capacity_) {
+    if (other.data_ == nullptr) {
+        data_ = nullptr;
+    }
+    else {
+        data_ = new int[capacity_];
+
+        for (int i=0;i<size_;i++) {
+            data_[i] = other.data_[i];
+        }
+    }
+}
+
+Vector& Vector::operator=(const Vector &other) {
+    if (this == &other)
+        return *this;
+
+    int* newData = nullptr;
+
+    if (other.data_ != nullptr) {
+        newData = new int[other.capacity_];
+
+        for (int i=0;i<other.size_;i++)
+            newData[i] = other.data_[i];
+    }
+    delete[] data_;
+
+    size_ = other.size_;
+    capacity_ = other.capacity_;
+    data_ = newData;
+    return *this;
+}
+
 Vector::~Vector() {
     delete[] data_;
 }
@@ -91,4 +124,12 @@ void Vector::shrink_to_fit() {
     delete[] data_;
     data_ = newData;
     capacity_ = size_;
+}
+
+int* Vector::begin() const {
+    return data_;
+}
+
+int* Vector::end() const {
+    return data_ + size_;
 }
