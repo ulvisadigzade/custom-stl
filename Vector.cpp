@@ -57,6 +57,21 @@ int& Vector::operator[](int index)
     return data_[index];
 }
 
+bool Vector::operator==(const Vector& other) const {
+    if (size_ != other.size_)return false;
+
+    if (this == &other) return true;
+
+    for (int i=0;i<size_;i++) {
+        if (data_[i] != other.data_[i])return false;
+    }
+    return true;
+}
+
+bool Vector::operator!=(const Vector& other) const {
+    return !(*this == other);
+}
+
 void Vector::push_back(int value) {
     if (size_ == capacity_) {
         reserve(capacity_ == 0 ? 1 : capacity_ * 2);
