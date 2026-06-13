@@ -95,6 +95,10 @@ int Vector::back() const {
     return data_[size_ - 1];
 }
 
+int Vector::front() const {
+    return data_[0];
+}
+
 int Vector::size() const {
     return size_;
 }
@@ -147,4 +151,23 @@ int* Vector::begin() const {
 
 int* Vector::end() const {
     return data_ + size_;
+}
+
+void Vector::clear() {
+    size_ = 0;
+}
+
+void Vector::resize(int newSize) {
+    if (newSize <= size_) {
+        size_ = newSize;
+        return;
+    }
+
+    if (newSize > capacity_)
+        reserve(newSize);
+
+    for (int i = size_; i < newSize; ++i)
+        data_[i] = 0;
+
+    size_ = newSize;
 }

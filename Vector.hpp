@@ -17,11 +17,14 @@ public:
     int size() const;
     int capacity() const;
     int back() const;
+    int front() const;
     bool empty() const;
     void reserve(int capacity);
     void shrink_to_fit();
     int* begin() const;
     int* end() const;
+    void clear();
+    void resize(int newSize);
 private:
     int size_{0};
     int capacity_{0};

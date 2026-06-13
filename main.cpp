@@ -3,21 +3,8 @@
 #include "Vector.hpp"
 
 int main() {
-    Vector a,b;
+    const Vector a(3,4);
 
-    for (int i=0;i<10;i++) {
-        a.push_back(i);
-        b.push_back(i);
-    }
+    a[0] = 1;
 
-    if (a==b) {
-        std::cout<<"a==b"<<std::endl;
-    }
-    Vector& c = b;
-
-    if (c == b) {
-        std::cout<<"c==b"<<std::endl;
-    }
-
-    for (auto &i:a)std::cout<<i<<" ";
 }
