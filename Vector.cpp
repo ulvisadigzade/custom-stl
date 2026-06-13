@@ -57,6 +57,10 @@ int& Vector::operator[](int index)
     return data_[index];
 }
 
+const int& Vector::operator[](int index) const {
+    return data_[index];
+}
+
 bool Vector::operator==(const Vector& other) const {
     if (size_ != other.size_)return false;
 

@@ -10,6 +10,7 @@ public:
     ~Vector();
     Vector& operator=(const Vector& other);
     int& operator[](int index);
+    const int& operator[](int index) const;
     bool operator==(const Vector& other) const;
     bool operator!=(const Vector& other) const;
     void push_back(int value);
