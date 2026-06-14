@@ -1,28 +1,30 @@
+#pragma once
 #include <stdexcept>
 
-#include "Vector.hpp"
-
-Vector::Vector(const std::size_t size) :
+template <typename T>
+Vector<T>::Vector(const std::size_t size) :
     size_(size),
     capacity_(size),
-    data_(size == 0 ? nullptr : new int[size]())
+    data_(size == 0 ? nullptr : new T[size]())
 {}
 
-Vector::Vector(const std::size_t size, const int value) :
+template <typename T>
+Vector<T>::Vector(const std::size_t size, const T& value) :
     size_(size),
     capacity_(size),
-    data_(size == 0 ? nullptr : new int[size])
+    data_(size == 0 ? nullptr : new T[size])
 {
     for (std::size_t i = 0; i < size; i++)
         data_[i] = value;
 }
 
-Vector::Vector(const Vector& other) : size_(other.size_), capacity_(other.capacity_) {
+template <typename T>
+Vector<T>::Vector(const Vector& other) : size_(other.size_), capacity_(other.capacity_) {
     if (other.data_ == nullptr) {
         data_ = nullptr;
     }
     else {
-        data_ = new int[capacity_];
+        data_ = new T[capacity_];
 
         for (std::size_t i = 0; i < size_; i++) {
             data_[i] = other.data_[i];
@@ -30,14 +32,15 @@ Vector::Vector(const Vector& other) : size_(other.size_), capacity_(other.capaci
     }
 }
 
-Vector& Vector::operator=(const Vector &other) {
+template <typename T>
+Vector<T>& Vector<T>::operator=(const Vector &other) {
     if (this == &other)
         return *this;
 
-    int* newData = nullptr;
+    T* newData = nullptr;
 
     if (other.data_ != nullptr) {
-        newData = new int[other.capacity_];
+        newData = new T[other.capacity_];
 
         for (std::size_t i = 0; i < other.size_; i++)
             newData[i] = other.data_[i];
@@ -50,20 +53,24 @@ Vector& Vector::operator=(const Vector &other) {
     return *this;
 }
 
-Vector::~Vector() {
+template <typename T>
+Vector<T>::~Vector() {
     delete[] data_;
 }
 
-int& Vector::operator[](std::size_t index)
+template <typename T>
+T& Vector<T>::operator[](std::size_t index)
 {
     return data_[index];
 }
 
-const int& Vector::operator[](std::size_t index) const {
+template <typename T>
+const T& Vector<T>::operator[](std::size_t index) const {
     return data_[index];
 }
 
-bool Vector::operator==(const Vector& other) const {
+template <typename T>
+bool Vector<T>::operator==(const Vector& other) const {
     if (size_ != other.size_) return false;
 
     if (this == &other) return true;
@@ -74,69 +81,80 @@ bool Vector::operator==(const Vector& other) const {
     return true;
 }
 
-bool Vector::operator!=(const Vector& other) const {
+template <typename T>
+bool Vector<T>::operator!=(const Vector& other) const {
     return !(*this == other);
 }
 
-void Vector::push_back(int value) {
+template <typename T>
+void Vector<T>::push_back(const T& value) {
     if (size_ == capacity_) {
         reserve(capacity_ == 0 ? 1 : capacity_ * 2);
     }
     data_[size_++] = value;
 }
 
-void Vector::pop_back() {
+template <typename T>
+void Vector<T>::pop_back() {
     if (size_ == 0) {
         throw std::out_of_range("pop_back() called on empty vector");
     }
     size_--;
 }
 
-const int& Vector::back() const {
+template <typename T>
+const T& Vector<T>::back() const {
     if (size_ == 0) {
         throw std::out_of_range("back() called on empty vector");
     }
     return data_[size_ - 1];
 }
 
-const int& Vector::front() const {
+template <typename T>
+const T& Vector<T>::front() const {
     if (size_ == 0) {
         throw std::out_of_range("front() called on empty vector");
     }
     return data_[0];
 }
 
-int& Vector::back() {
+template <typename T>
+T& Vector<T>::back() {
     if (size_ == 0) {
         throw std::out_of_range("back() called on empty vector");
     }
     return data_[size_ - 1];
 }
 
-int& Vector::front() {
+template <typename T>
+T& Vector<T>::front() {
     if (size_ == 0) {
         throw std::out_of_range("front() called on empty vector");
     }
     return data_[0];
 }
 
-std::size_t Vector::size() const {
+template <typename T>
+std::size_t Vector<T>::size() const {
     return size_;
 }
 
-std::size_t Vector::capacity() const {
+template <typename T>
+std::size_t Vector<T>::capacity() const {
     return capacity_;
 }
 
-bool Vector::empty() const {
+template <typename T>
+bool Vector<T>::empty() const {
     return size_ == 0;
 }
 
-void Vector::reserve(std::size_t capacity) {
+template <typename T>
+void Vector<T>::reserve(std::size_t capacity) {
     if (capacity <= capacity_)
         return;
 
-    int* newData = new int[capacity];
+    T* newData = new T[capacity];
 
     for (std::size_t i = 0; i < size_; i++) {
         newData[i] = data_[i];
@@ -146,7 +164,8 @@ void Vector::reserve(std::size_t capacity) {
     capacity_ = capacity;
 }
 
-void Vector::shrink_to_fit() {
+template <typename T>
+void Vector<T>::shrink_to_fit() {
     if (capacity_ == size_)
         return;
 
@@ -157,7 +176,7 @@ void Vector::shrink_to_fit() {
         return;
     }
 
-    int* newData = new int[size_];
+    T* newData = new T[size_];
     for (std::size_t i = 0; i < size_; i++) {
         newData[i] = data_[i];
     }
@@ -166,27 +185,33 @@ void Vector::shrink_to_fit() {
     capacity_ = size_;
 }
 
-const int* Vector::begin() const {
+template <typename T>
+const T* Vector<T>::begin() const {
     return data_;
 }
 
-const int* Vector::end() const {
+template <typename T>
+const T* Vector<T>::end() const {
     return data_ + size_;
 }
 
-int* Vector::begin() {
+template <typename T>
+T* Vector<T>::begin() {
     return data_;
 }
 
-int* Vector::end() {
+template <typename T>
+T* Vector<T>::end() {
     return data_ + size_;
 }
 
-void Vector::clear() {
+template <typename T>
+void Vector<T>::clear() {
     size_ = 0;
 }
 
-void Vector::resize(std::size_t newSize) {
+template <typename T>
+void Vector<T>::resize(std::size_t newSize) {
     if (newSize <= size_) {
         size_ = newSize;
         return;
@@ -201,7 +226,8 @@ void Vector::resize(std::size_t newSize) {
     size_ = newSize;
 }
 
-void Vector::insert(int* pos, int value) {
+template <typename T>
+void Vector<T>::insert(T* pos, const T& value) {
     if (pos < data_ || pos > data_ + size_) {
         throw std::out_of_range("Position is out of range of vector");
     }
@@ -214,7 +240,7 @@ void Vector::insert(int* pos, int value) {
 
     pos = data_ + index;
 
-    for (int* i = data_ + size_; i != pos; --i) {
+    for (T* i = data_ + size_; i != pos; --i) {
         *i = *(i - 1);
     }
 
@@ -222,18 +248,20 @@ void Vector::insert(int* pos, int value) {
     ++size_;
 }
 
-void Vector::erase(int* pos) {
+template <typename T>
+void Vector<T>::erase(T* pos) {
     if (pos < data_ || pos >= data_ + size_) {
         throw std::out_of_range("Position is out of range of vector");
     }
 
-    for (auto i = pos; i < data_ + size_ - 1; i++) {
+    for (T* i = pos; i < data_ + size_ - 1; ++i) {
         *i = *(i + 1);
     }
     --size_;
 }
 
-void Vector::assign(std::size_t count, int value) {
+template <typename T>
+void Vector<T>::assign(std::size_t count, const T& value) {
     if (count <= capacity_) {
         size_ = count;
         for (std::size_t i = 0; i < size_; i++)
@@ -247,8 +275,9 @@ void Vector::assign(std::size_t count, int value) {
     size_ = count;
 }
 
-void Vector::swap(Vector &other) {
-    int* tmpData = data_;
+template <typename T>
+void Vector<T>::swap(Vector &other) {
+    T* tmpData = data_;
     data_ = other.data_;
     other.data_ = tmpData;
 

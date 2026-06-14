@@ -7,9 +7,14 @@ using namespace std;
 int main() {
 
     try {
-        Vector a;
+        Vector<std::string>v(3,"3");
+        Vector<std::string>& z = v;
 
-        std::cout<<a.back();
+        z[0] = "1";
+
+        for (auto &i:v)cout<<i<<" ";
+        cout<<"\n";
+        for (auto &i:z)cout<<i<<" ";
     }
     catch (const std::runtime_error& e) {
         std::cout<<"Error: "<<e.what();
