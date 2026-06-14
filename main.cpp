@@ -5,15 +5,13 @@
 using namespace std;
 
 int main() {
-    Vector a;
 
-    for (int i=1;i<=5;i++) {
-        a.push_back(i);
+    try {
+        Vector a;
+
+        std::cout<<a.back();
     }
-
-    a.assign(200,4);
-
-    for (auto &i:a) {
-        cout<<i<<" ";
+    catch (const std::runtime_error& e) {
+        std::cout<<"Error: "<<e.what();
     }
 }

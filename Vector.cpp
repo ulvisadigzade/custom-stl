@@ -1,15 +1,17 @@
+#include <stdexcept>
+
 #include "Vector.hpp"
 
 Vector::Vector(const std::size_t size) :
     size_(size),
     capacity_(size),
-    data_(new int[size]())
+    data_(size == 0 ? nullptr : new int[size]())
 {}
 
 Vector::Vector(const std::size_t size, const int value) :
     size_(size),
     capacity_(size),
-    data_(new int[size])
+    data_(size == 0 ? nullptr : new int[size])
 {
     for (std::size_t i = 0; i < size; i++)
         data_[i] = value;
@@ -85,21 +87,36 @@ void Vector::push_back(int value) {
 
 void Vector::pop_back() {
     if (size_ == 0) {
-        //TODO: throw
-        return;
+        throw std::out_of_range("pop_back() called on empty vector");
     }
     size_--;
 }
 
-int Vector::back() const {
+const int& Vector::back() const {
     if (size_ == 0) {
-        //TODO: throw
-        return 0; //temporary invalid fallback
+        throw std::out_of_range("back() called on empty vector");
     }
     return data_[size_ - 1];
 }
 
-int Vector::front() const {
+const int& Vector::front() const {
+    if (size_ == 0) {
+        throw std::out_of_range("front() called on empty vector");
+    }
+    return data_[0];
+}
+
+int& Vector::back() {
+    if (size_ == 0) {
+        throw std::out_of_range("back() called on empty vector");
+    }
+    return data_[size_ - 1];
+}
+
+int& Vector::front() {
+    if (size_ == 0) {
+        throw std::out_of_range("front() called on empty vector");
+    }
     return data_[0];
 }
 
@@ -149,11 +166,19 @@ void Vector::shrink_to_fit() {
     capacity_ = size_;
 }
 
-int* Vector::begin() const {
+const int* Vector::begin() const {
     return data_;
 }
 
-int* Vector::end() const {
+const int* Vector::end() const {
+    return data_ + size_;
+}
+
+int* Vector::begin() {
+    return data_;
+}
+
+int* Vector::end() {
     return data_ + size_;
 }
 
@@ -177,10 +202,8 @@ void Vector::resize(std::size_t newSize) {
 }
 
 void Vector::insert(int* pos, int value) {
-    //if it's outside, throw, we can insert to last place as well
-    if (pos >= data_ + size_) {
-        //TODO throw here
-        return;
+    if (pos < data_ || pos > data_ + size_) {
+        throw std::out_of_range("Position is out of range of vector");
     }
 
     std::size_t index = pos - data_;
@@ -200,9 +223,8 @@ void Vector::insert(int* pos, int value) {
 }
 
 void Vector::erase(int* pos) {
-    if (pos >= data_ + size_) {
-        //TODO throw here
-        return;
+    if (pos < data_ || pos >= data_ + size_) {
+        throw std::out_of_range("Position is out of range of vector");
     }
 
     for (auto i = pos; i < data_ + size_ - 1; i++) {
