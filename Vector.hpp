@@ -26,6 +26,10 @@ public:
     int* end() const;
     void clear();
     void resize(int newSize);
+    void insert(int* pos, int value);
+    void erase(int* pos);
+    void assign(int count, int value);
+    void swap(Vector& other);
 private:
     int size_{0};
     int capacity_{0};

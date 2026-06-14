@@ -2,16 +2,19 @@
 
 #include "Vector.hpp"
 
-int main() {
-    const Vector a(3,4);
+using namespace std;
 
-    std::cout<<a[0]<<" ";
+int main() {
+    Vector a;
+
+    for (int i=1;i<=5;i++) {
+        a.push_back(i);
+    }
+
+    a.assign(200,4);
 
     for (auto &i:a) {
-        std::cout<<i<<" ";
+        cout<<i<<" ";
     }
-    std::cout<<a.size();
-    int* z = a.begin();
-    z[0] = 234;
 
 }

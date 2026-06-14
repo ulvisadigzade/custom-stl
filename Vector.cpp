@@ -175,3 +175,66 @@ void Vector::resize(int newSize) {
 
     size_ = newSize;
 }
+
+void Vector::insert(int* pos, int value) {
+    //if it's outside, throw, we can insert to last place as well
+    if (pos >= data_ + size_) {
+        //TODO throw here
+        return;
+    }
+
+    int index = pos - data_;
+
+    if (size_ == capacity_) {
+        reserve(capacity_ == 0 ? 1 : capacity_ * 2);
+    }
+
+    pos = data_ + index;
+
+    for (int* i = data_ + size_; i != pos; --i) {
+        *i = *(i - 1);
+    }
+
+    *pos = value;
+    ++size_;
+}
+
+void Vector::erase(int* pos) {
+    if (pos >= data_ + size_) {
+        //TODO throw here
+        return;
+    }
+
+    for (auto i=pos;i<data_ + size_ - 1;i++) {
+        *i = *(i+1);
+    }
+    --size_;
+}
+
+void Vector::assign(int count, int value) {
+    if (count <= capacity_) {
+        size_ = count;
+        for (int i=0;i<size_;i++)
+            data_[i] = value;
+        return;
+    }
+
+    reserve(count);
+    for (int i = 0; i < count; ++i)
+        data_[i] = value;
+    size_ = count;
+}
+
+void Vector::swap(Vector &other) {
+    int* tmpData = data_;
+    data_ = other.data_;
+    other.data_ = tmpData;
+
+    int tmpSize = size_;
+    size_ = other.size_;
+    other.size_ = tmpSize;
+
+    int tmpCap = capacity_;
+    capacity_ = other.capacity_;
+    other.capacity_ = tmpCap;
+}
