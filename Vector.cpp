@@ -1,17 +1,17 @@
 #include "Vector.hpp"
 
-Vector::Vector(const int size) :
+Vector::Vector(const std::size_t size) :
     size_(size),
     capacity_(size),
     data_(new int[size]())
 {}
 
-Vector::Vector(const int size, const int value) :
+Vector::Vector(const std::size_t size, const int value) :
     size_(size),
     capacity_(size),
     data_(new int[size])
 {
-    for (int i = 0; i < size; i++)
+    for (std::size_t i = 0; i < size; i++)
         data_[i] = value;
 }
 
@@ -22,7 +22,7 @@ Vector::Vector(const Vector& other) : size_(other.size_), capacity_(other.capaci
     else {
         data_ = new int[capacity_];
 
-        for (int i=0;i<size_;i++) {
+        for (std::size_t i = 0; i < size_; i++) {
             data_[i] = other.data_[i];
         }
     }
@@ -37,7 +37,7 @@ Vector& Vector::operator=(const Vector &other) {
     if (other.data_ != nullptr) {
         newData = new int[other.capacity_];
 
-        for (int i=0;i<other.size_;i++)
+        for (std::size_t i = 0; i < other.size_; i++)
             newData[i] = other.data_[i];
     }
     delete[] data_;
@@ -52,22 +52,22 @@ Vector::~Vector() {
     delete[] data_;
 }
 
-int& Vector::operator[](int index)
+int& Vector::operator[](std::size_t index)
 {
     return data_[index];
 }
 
-const int& Vector::operator[](int index) const {
+const int& Vector::operator[](std::size_t index) const {
     return data_[index];
 }
 
 bool Vector::operator==(const Vector& other) const {
-    if (size_ != other.size_)return false;
+    if (size_ != other.size_) return false;
 
     if (this == &other) return true;
 
-    for (int i=0;i<size_;i++) {
-        if (data_[i] != other.data_[i])return false;
+    for (std::size_t i = 0; i < size_; i++) {
+        if (data_[i] != other.data_[i]) return false;
     }
     return true;
 }
@@ -103,11 +103,11 @@ int Vector::front() const {
     return data_[0];
 }
 
-int Vector::size() const {
+std::size_t Vector::size() const {
     return size_;
 }
 
-int Vector::capacity() const {
+std::size_t Vector::capacity() const {
     return capacity_;
 }
 
@@ -115,13 +115,13 @@ bool Vector::empty() const {
     return size_ == 0;
 }
 
-void Vector::reserve(int capacity) {
+void Vector::reserve(std::size_t capacity) {
     if (capacity <= capacity_)
         return;
 
     int* newData = new int[capacity];
 
-    for (int i=0;i<size_;i++) {
+    for (std::size_t i = 0; i < size_; i++) {
         newData[i] = data_[i];
     }
     delete[] data_;
@@ -141,7 +141,7 @@ void Vector::shrink_to_fit() {
     }
 
     int* newData = new int[size_];
-    for (int i=0;i<size_;i++) {
+    for (std::size_t i = 0; i < size_; i++) {
         newData[i] = data_[i];
     }
     delete[] data_;
@@ -161,7 +161,7 @@ void Vector::clear() {
     size_ = 0;
 }
 
-void Vector::resize(int newSize) {
+void Vector::resize(std::size_t newSize) {
     if (newSize <= size_) {
         size_ = newSize;
         return;
@@ -170,7 +170,7 @@ void Vector::resize(int newSize) {
     if (newSize > capacity_)
         reserve(newSize);
 
-    for (int i = size_; i < newSize; ++i)
+    for (std::size_t i = size_; i < newSize; ++i)
         data_[i] = 0;
 
     size_ = newSize;
@@ -183,7 +183,7 @@ void Vector::insert(int* pos, int value) {
         return;
     }
 
-    int index = pos - data_;
+    std::size_t index = pos - data_;
 
     if (size_ == capacity_) {
         reserve(capacity_ == 0 ? 1 : capacity_ * 2);
@@ -205,22 +205,22 @@ void Vector::erase(int* pos) {
         return;
     }
 
-    for (auto i=pos;i<data_ + size_ - 1;i++) {
-        *i = *(i+1);
+    for (auto i = pos; i < data_ + size_ - 1; i++) {
+        *i = *(i + 1);
     }
     --size_;
 }
 
-void Vector::assign(int count, int value) {
+void Vector::assign(std::size_t count, int value) {
     if (count <= capacity_) {
         size_ = count;
-        for (int i=0;i<size_;i++)
+        for (std::size_t i = 0; i < size_; i++)
             data_[i] = value;
         return;
     }
 
     reserve(count);
-    for (int i = 0; i < count; ++i)
+    for (std::size_t i = 0; i < count; ++i)
         data_[i] = value;
     size_ = count;
 }
@@ -230,11 +230,11 @@ void Vector::swap(Vector &other) {
     data_ = other.data_;
     other.data_ = tmpData;
 
-    int tmpSize = size_;
+    std::size_t tmpSize = size_;
     size_ = other.size_;
     other.size_ = tmpSize;
 
-    int tmpCap = capacity_;
+    std::size_t tmpCap = capacity_;
     capacity_ = other.capacity_;
     other.capacity_ = tmpCap;
 }
