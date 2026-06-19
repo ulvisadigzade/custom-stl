@@ -4,5 +4,5 @@ project(custom_stl)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(custom_stl main.cpp
-        Vector.hpp
-        Vector.tpp)
+        vector/Vector.hpp
+        vector/Vector.tpp)
