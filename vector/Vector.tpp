@@ -33,6 +33,13 @@ Vector<T>::Vector(const Vector& other) : size_(other.size_), capacity_(other.cap
 }
 
 template <typename T>
+Vector<T>::Vector(Vector&& other) noexcept : size_(other.size_), capacity_(other.capacity_), data_(other.data_) {
+    other.size_ = 0;
+    other.capacity_ = 0;
+    other.data_ = nullptr;
+}
+
+template <typename T>
 Vector<T>& Vector<T>::operator=(const Vector &other) {
     if (this == &other)
         return *this;
@@ -52,6 +59,24 @@ Vector<T>& Vector<T>::operator=(const Vector &other) {
     data_ = newData;
     return *this;
 }
+
+template <typename T>
+Vector<T>& Vector<T>::operator=(Vector&& other) noexcept{
+    if (this == &other)
+        return *this;
+
+    delete[] data_;
+
+    size_ = other.size_;
+    capacity_ = other.capacity_;
+    data_ = other.data_;
+
+    other.size_ = 0;
+    other.capacity_ = 0;
+    other.data_ = nullptr;
+    return *this;
+}
+
 
 template <typename T>
 Vector<T>::~Vector() {

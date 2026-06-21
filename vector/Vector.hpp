@@ -8,8 +8,10 @@ public:
     Vector(size_t size);
     Vector(size_t size, const T& value);
     Vector(const Vector& other);
+    Vector(Vector&& other) noexcept ;
     ~Vector();
     Vector& operator=(const Vector& other);
+    Vector& operator=(Vector&& other) noexcept ;
     T& operator[](std::size_t index);
     const T& operator[](std::size_t index) const;
     bool operator==(const Vector& other) const;
